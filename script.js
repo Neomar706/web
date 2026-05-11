@@ -71,7 +71,7 @@ async function fetchCharacters(page = 1, search = '', race = '') {
 }
 
 function showLoading() {
-    document.getElementById('charactersContainer').innerHTML = '<div class="loading">Cargando personajes...</div>';
+    document.getElementById('charactersContainer').innerHTML = '<div class="loading">⏳ Cargando personajes...</div>';
 }
 
 function showError(message) {
@@ -82,7 +82,7 @@ function displayCharacters(characters) {
     const container = document.getElementById('charactersContainer');
 
     if (!characters || characters.length === 0) {
-        container.innerHTML = '<div class="error">No se encontraron personajes 😢</div>';
+        container.innerHTML = '<div class="error">😢 No se encontraron personajes</div>';
         return;
     }
 
@@ -90,15 +90,17 @@ function displayCharacters(characters) {
                 <div class="characters-grid">
                     ${characters.map(char => `
                         <div class="character-card" onclick="showCharacterDetails(${char.id})">
-                            <img class="character-image" src="${char.image}" alt="${char.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x250?text=No+Image'">
+                            <div class="image-container">
+                                <img class="character-image" src="${char.image}" alt="${char.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x400?text=Imagen+no+disponible'">
+                            </div>
                             <div class="character-info">
                                 <div class="character-name">${char.name}</div>
                                 <div class="character-race">${char.race || 'Desconocida'}</div>
-                                <div class="character-details"><strong>Ki:</strong> ${char.ki}</div>
-                                <div class="character-details"><strong>Max Ki:</strong> ${char.maxKi}</div>
-                                <div class="character-details"><strong>Género:</strong> ${char.gender}</div>
-                                <div class="character-details"><strong>Afiliación:</strong> ${char.affiliation}</div>
-                                <div class="description">${char.description.substring(0, 100)}${char.description.length > 100 ? '...' : ''}</div>
+                                <div class="character-details"><strong>⚡ Ki:</strong> ${char.ki}</div>
+                                <div class="character-details"><strong>💥 Max Ki:</strong> ${char.maxKi}</div>
+                                <div class="character-details"><strong>👤 Género:</strong> ${char.gender}</div>
+                                <div class="character-details"><strong>🏷️ Afiliación:</strong> ${char.affiliation}</div>
+                                <div class="description">📖 ${char.description.substring(0, 100)}${char.description.length > 100 ? '...' : ''}</div>
                             </div>
                         </div>
                     `).join('')}
@@ -137,7 +139,7 @@ function displayRaceFilters() {
     const racesArray = Array.from(races).sort();
 
     container.innerHTML = `
-                <button class="race-btn ${currentRace === '' ? 'active' : ''}" onclick="filterByRace('')">Todos</button>
+                <button class="race-btn ${currentRace === '' ? 'active' : ''}" onclick="filterByRace('')">🌍 Todos</button>
                 ${racesArray.map(race => `
                     <button class="race-btn ${currentRace === race ? 'active' : ''}" onclick="filterByRace('${race}')">${race}</button>
                 `).join('')}
@@ -151,15 +153,17 @@ async function showCharacterDetails(id) {
 
         const modalContent = document.getElementById('modalContent');
         modalContent.innerHTML = `
-                    <img class="modal-image" src="${character.image}" alt="${character.name}" onerror="this.src='https://via.placeholder.com/500x500?text=No+Image'">
+                    <div class="modal-image-container">
+                        <img class="modal-image" src="${character.image}" alt="${character.name}" onerror="this.src='https://via.placeholder.com/400x400?text=Imagen+no+disponible'">
+                    </div>
                     <div class="modal-info">
-                        <h2 style="color: #764ba2; margin-bottom: 10px;">${character.name}</h2>
-                        <div style="margin-bottom: 8px;"><strong>Raza:</strong> ${character.race || 'Desconocida'}</div>
-                        <div style="margin-bottom: 8px;"><strong>Género:</strong> ${character.gender}</div>
-                        <div style="margin-bottom: 8px;"><strong>Ki:</strong> ${character.ki}</div>
-                        <div style="margin-bottom: 8px;"><strong>Max Ki:</strong> ${character.maxKi}</div>
-                        <div style="margin-bottom: 8px;"><strong>Afiliación:</strong> ${character.affiliation}</div>
-                        <div style="margin-top: 15px; line-height: 1.6;"><strong>Descripción:</strong><br>${character.description}</div>
+                        <h2>${character.name}</h2>
+                        <p><strong>🌍 Raza:</strong> ${character.race || 'Desconocida'}</p>
+                        <p><strong>👤 Género:</strong> ${character.gender}</p>
+                        <p><strong>⚡ Ki:</strong> ${character.ki}</p>
+                        <p><strong>💥 Max Ki:</strong> ${character.maxKi}</p>
+                        <p><strong>🏷️ Afiliación:</strong> ${character.affiliation}</p>
+                        <p><strong>📖 Descripción:</strong><br>${character.description}</p>
                     </div>
                 `;
 
@@ -196,7 +200,7 @@ function clearSearch() {
     // Resetear botones de raza
     document.querySelectorAll('.race-btn').forEach(btn => {
         btn.classList.remove('active');
-        if (btn.textContent === 'Todos') btn.classList.add('active');
+        if (btn.textContent.includes('Todos')) btn.classList.add('active');
     });
 }
 
@@ -210,7 +214,7 @@ function filterByRace(race) {
     // Actualizar botones activos
     document.querySelectorAll('.race-btn').forEach(btn => {
         btn.classList.remove('active');
-        if (btn.textContent === race || (race === '' && btn.textContent === 'Todos')) {
+        if (btn.textContent === race || (race === '' && btn.textContent.includes('Todos'))) {
             btn.classList.add('active');
         }
     });
