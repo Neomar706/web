@@ -1,11 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neomar706 Github Pages</title>
+    <title>Dragon Ball API - Personajes</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Hello World</h1>
+    <div class="container">
+        <h1>🐉 Dragon Ball Z</h1>
+        <div class="subtitle">Personajes Legendarios</div>
+
+        <div class="filters">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Buscar personaje por nombre..." autocomplete="off">
+                <button onclick="searchCharacters()">Buscar</button>
+                <button onclick="clearSearch()" style="background: #666;">Limpiar</button>
+            </div>
+            <div class="race-filter" id="raceFilter"></div>
+        </div>
+
+        <div id="charactersContainer">
+            <div class="loading">Cargando personajes...</div>
+        </div>
+
+        <div id="pagination" class="pagination"></div>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal()">&times;</span>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
